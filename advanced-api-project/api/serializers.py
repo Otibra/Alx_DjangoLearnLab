@@ -1,4 +1,4 @@
- from rest_framework import serializers
+from rest_framework import serializers
 from .models import Book
 from .models import Author
 
@@ -20,7 +20,13 @@ class BookSerializer(serializers.ModelSerializer):
           # will be included in the serialized output
           fields = '__all__'
 
+     def validate_title(self, value):
+          if "forbidden" in value.lower():
+              raise serializers.ValidationError("This title is not allowed.")
+          return value
 
+           
+        
 # AuthorSerializer
 # -----------------------------
 # This serializer handles serialization and deserialization
