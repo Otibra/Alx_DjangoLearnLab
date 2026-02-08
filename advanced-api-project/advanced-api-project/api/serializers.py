@@ -20,13 +20,7 @@ class BookSerializer(serializers.ModelSerializer):
           # will be included in the serialized output
           fields = '__all__'
 
-     def validate_title(self, value):
-          if "forbidden" in value.lower():
-              raise serializers.ValidationError("This title is not allowed.")
-          return value
 
-           
-        
 # AuthorSerializer
 # -----------------------------
 # This serializer handles serialization and deserialization
@@ -34,8 +28,6 @@ class BookSerializer(serializers.ModelSerializer):
 # Depending on how the Author model is defined, an Author can be
 # related to multiple Book objects (one-to-many relationship).
 class AuthorSerializer(serializers.ModelSerializer):
-     # nested serializers for all books of this author
-     books = BookSerializer(many = True, read_only =True)
      
      class Meta:
           # Specifies the model this serializer is based on
