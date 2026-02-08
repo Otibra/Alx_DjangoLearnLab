@@ -1,0 +1,30 @@
+<!-- api/templates/books/book_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book List</title>
+</head>
+<body>
+    <h1>Books</h1>
+
+    <a href="{% url 'book-create' %}">Add New Book</a>
+
+    {% if books %}
+        <ul>
+            {% for book in books %}
+                <li>
+                    <a href="{% url 'book-detail' book.pk %}">{{ book.title }}</a>
+                    ({{ book.publication_year }}) by {{ book.author }}
+
+                    <!-- Edit / Delete links -->
+                    <a href="{% url 'book-update' book.pk %}">Edit</a>
+                    <a href="{% url 'book-delete' book.pk %}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No books available.</p>
+    {% endif %}
+</body>
+</html>
+
