@@ -17,7 +17,7 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     
     # Stores the year the book was published as an integer
-    published_year = models.IntegerField()
+    publication_year = models.IntegerField()
     
     # ForeignKey relationship: each book has one author
     # on_delete=models.CASCADE -> if author is deleted, all their books are deleted
