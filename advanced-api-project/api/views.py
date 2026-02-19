@@ -5,26 +5,45 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Book
 from .serializers import BookSerializer
 from .permissions import IsEditor, IsAdminUserCustom
-
+from .filters import BookFilter
 
 class BookListView(generics.ListAPIView):
     """
-    GET: List all books.
-    Supports filtering, searching, and ordering.
-    Accessible by any user (read-only).
+    GET: List all books with integrated filtering, searching, and ordering.
+
+    Features:
+    1. Filtering:
+        - author: exact author ID
+        - publication_year: exact year or range
+        - title: partial match
+    2. Searching:
+        - title: partial text match
+        - author__name: partial text match
+    3. Ordering:
+        - Any field of the Book model, e.g., title, publication_year
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [AllowAny]
 
+    # Enable filtering, searching, and ordering
     filter_backends = [
         DjangoFilterBackend,
         filters.SearchFilter,
         filters.OrderingFilter,
     ]
-    filterset_fields = ['author', 'publication_year']
-    search_fields = ['title']
-    ordering_fields = ['publication_year', 'title']
+
+    # Use our custom FilterSet for advanced filtering
+    filterset_class = BookFilter
+
+    # DRF SearchFilter fields for partial text search
+    search_fields = ['title', 'author__name']
+
+    # Allow ordering by any field
+    ordering_fields = '__all__'
+
+    # Default ordering if none specified
+    ordering = ['title']
 
 
 class BookDetailView(generics.RetrieveAPIView):
