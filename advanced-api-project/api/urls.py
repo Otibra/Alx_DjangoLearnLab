@@ -22,5 +22,8 @@ urlpatterns = [
 
     # Delete a book (requires book ID)
     path('books/<int:pk>/delete/', BookDeleteView.as_view(), name='book-delete'),
+
+    path('books/update/', BookUpdateView.as_view(), name='book-update-no-id'),
+    path('books/delete/', BookDeleteView.as_view(), name='book-delete-no-id'),
 ]
 
