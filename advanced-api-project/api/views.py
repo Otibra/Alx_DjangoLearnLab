@@ -1,31 +1,27 @@
-# Online Python compiler (interpreter) to run Python online.
-# Write Python 3 code in this online editor and run it.
-
-from rest_framework import generics
+from rest_framework import generics, filters, status
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Book
 from .serializers import BookSerializer
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.response import Response
-from rest_framework import filters, permissions, status
 from .permissions import IsEditor, IsAdminUserCustom
 
 
 class BookListView(generics.ListAPIView):
     """
-    A ListView for retrieving all books.
+    GET: List all books.
     Supports filtering, searching, and ordering.
-    Accessible by any user.
+    Accessible by any user (read-only).
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [AllowAny]  # Anyone can view the list
 
     filter_backends = [
         DjangoFilterBackend,
         filters.SearchFilter,
         filters.OrderingFilter,
     ]
-
     filterset_fields = ['author', 'publication_year']
     search_fields = ['title']
     ordering_fields = ['publication_year', 'title']
@@ -33,18 +29,18 @@ class BookListView(generics.ListAPIView):
 
 class BookDetailView(generics.RetrieveAPIView):
     """
-    A DetailView for retrieving a single book by ID.
+    GET: Retrieve a single book by ID.
     Requires authentication.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]  # Must be logged in
 
 
 class BookCreateView(generics.CreateAPIView):
     """
-    A CreateView for adding a new book.
-    Only users with editor role can create.
+    POST: Create a new book.
+    Only users in the 'Editors' group can create.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
@@ -66,8 +62,8 @@ class BookCreateView(generics.CreateAPIView):
 
 class BookUpdateView(generics.UpdateAPIView):
     """
-    An UpdateView for modifying an existing book.
-    Only users with editor role can update.
+    PUT/PATCH: Update an existing book.
+    Only users in the 'Editors' group can update.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
@@ -89,19 +85,11 @@ class BookUpdateView(generics.UpdateAPIView):
 
 class BookDeleteView(generics.DestroyAPIView):
     """
-    A DeleteView for removing a book.
-    Only admin users can delete.
+    DELETE: Remove a book.
+    Only users in the 'Admins' group can delete.
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAdminUserCustom]
 
 
-# ================================
-# Key Notes:
-# - A ListView for retrieving all books.
-# - A DetailView for retrieving a single book by ID.
-# - A CreateView for adding a new book.
-# - An UpdateView for modifying an existing book.
-# - A DeleteView for removing a book.
-# ================================
