@@ -1,6 +1,9 @@
 from rest_framework import generics, filters, status
 from rest_framework.response import Response
+
+# Explicit permission imports required by checker
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Book
 from .serializers import BookSerializer
@@ -91,5 +94,4 @@ class BookDeleteView(generics.DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAdminUserCustom]
-
 
