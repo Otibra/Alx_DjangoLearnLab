@@ -5,6 +5,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Book
 from .serializers import BookSerializer
 from .permissions import IsEditor, IsAdminUserCustom
+from django_filters import rest_framework as django_filters
 from .filters import BookFilter
 
 class BookListView(generics.ListAPIView):
