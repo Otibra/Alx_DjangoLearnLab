@@ -1,0 +1,35 @@
+<!-- templates/profile.html -->
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<h2>User Profile</h2>
+
+<!-- Profile update form -->
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        <div style="margin-bottom: 10px;">
+            {{ field.label_tag }}<br> <!-- Label for each field -->
+            {{ field }} <!-- Input field -->
+            {% if field.errors %}
+                <!-- Display field-specific validation errors in red -->
+                <p style="color: red; font-size: 14px;">{{ field.errors|striptags }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <button type="submit">Update Profile</button>
+</form>
+
+<!-- Display success messages -->
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: green;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+{% endblock %}
+
+
