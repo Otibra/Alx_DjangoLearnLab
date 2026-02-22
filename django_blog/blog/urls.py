@@ -18,6 +18,7 @@ urlpatterns = [
     # List all posts — accessible to everyone
     path('posts/', PostListView.as_view(), name='post-list'),
 
+
     # View a single post’s details
     path('posts/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
 
