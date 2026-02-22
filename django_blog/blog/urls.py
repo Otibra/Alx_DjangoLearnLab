@@ -16,18 +16,20 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),   # /logout
     path('profile/', views.profile, name='profile'),     # /profile
     # List all posts — accessible to everyone
-    path('posts/', PostListView.as_view(), name='post-list'),
-
+    path('', views.PostListView.as_view(), name='blog-home'),
 
     # View a single post’s details
-    path('posts/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    path('post/<int:pk>/', views.PostDetailView.as_view(), name='post-detail'),
 
-    # Create a new post — authenticated users only
-    path('posts/new/', PostCreateView.as_view(), name='post-create'),
+    # Create a new post
+    path('post/new/', views.PostCreateView.as_view(), name='post-create'),
 
-    # Edit a post — only the author can edit
-    path('posts/<int:pk>/edit/', PostUpdateView.as_view(), name='post-update'),
+    # Update a post
+    path('post/<int:pk>/update/', views.PostUpdateView.as_view(), name='post-update'),
 
-    # Delete a post — only the author can delete
-    path('posts/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
+    # Delete a post
+    path('post/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post-delete'),
+
+    # About page
+    path('about/', views.about, name='blog-about'),
 ]
