@@ -40,3 +40,14 @@
     {% endif %}
 </body>
 </html>
+{% if user.is_authenticated %}
+    <hr>
+    <h4>Add a Comment</h4>
+    <form method="POST" action="{% url 'comment_create' object.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Post Comment</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'login' %}">Login</a> to post a comment.</p>
+{% endif %}

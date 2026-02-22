@@ -5,7 +5,10 @@ from .views import (
     PostDetailView,
     PostCreateView,
     PostUpdateView,
-    PostDeleteView
+    PostDeleteView,
+    CommentCreateView,
+    CommentUpdateView,
+    CommentDeleteView,
 )
 
 app_name = 'blog'  # Optional, for namespacing URLs
@@ -32,4 +35,9 @@ urlpatterns = [
 
     # About page
     path('about/', views.about, name='blog-about'),
+
+    path('post/<int:pk>/comment/new/', CommentCreateView.as_view(), name='comment_create'),
+    path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment_update'),
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
 ]
+

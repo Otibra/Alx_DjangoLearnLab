@@ -19,4 +19,20 @@
     <a href="{% url 'post-list' %}">Back to all posts</a>
 </body>
 </html>
+<hr>
+<h3>Comments ({{ object.comments.count }})</h3>
 
+{% for comment in object.comments.all %}
+    <div class="card mb-2 p-3">
+        <strong>{{ comment.author }}</strong>
+        <small class="text-muted">{{ comment.created_at }}</small>
+        <p>{{ comment.content }}</p>
+
+        {% if user == comment.author %}
+            <a href="{% url 'comment_update' comment.pk %}">Edit</a> |
+            <a href="{% url 'comment_delete' comment.pk %}">Delete</a>
+        {% endif %}
+    </div>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
