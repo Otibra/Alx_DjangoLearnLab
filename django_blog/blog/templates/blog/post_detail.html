@@ -1,0 +1,21 @@
+<!-- blog/templates/blog/post_detail.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>By {{ post.author }} on {{ post.published_date }}</p>
+    <p>{{ post.content }}</p>
+
+    <!-- Show edit/delete links only to the author -->
+    {% if user == post.author %}
+        <a href="{% url 'post-update' post.pk %}">Edit</a>
+        <a href="{% url 'post-delete' post.pk %}">Delete</a>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'post-list' %}">Back to all posts</a>
+</body>
+</html>

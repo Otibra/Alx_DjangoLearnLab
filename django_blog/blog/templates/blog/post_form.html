@@ -1,0 +1,23 @@
+<!-- blog/templates/blog/post_form.html  (creat and update) -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        {% if view.object %}Update Post{% else %}Create Post{% endif %}
+    </title>
+</head>
+<body>
+    <h1>
+        {% if view.object %}Update Post{% else %}Create Post{% endif %}
+    </h1>
+
+    <!-- CSRF token is required for form submission -->
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }} <!-- Display form fields in <p> tags -->
+        <button type="submit">Save</button>
+    </form>
+
+    <a href="{% url 'post-list' %}">Back to all posts</a>
+</body>
+</html>
