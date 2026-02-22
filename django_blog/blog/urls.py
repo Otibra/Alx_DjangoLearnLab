@@ -36,8 +36,15 @@ urlpatterns = [
     # About page
     path('about/', views.about, name='blog-about'),
 
-    path('post/<int:pk>/commenst/new/', CommentCreateView.as_view(), name='comment_create'),
-    path('comments/<int:pk>/update/', CommentUpdateView.as_view(), name='comment_update'),
-    path('comments/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
-]
+    # Post views
+    path('', PostListView.as_view(), name='post_list'),
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
 
+    # Comment CRUD views (exact paths required)
+    path(
+        'post/<int:pk>/comments/new/', CommentCreateView.as_view(), name='comment_create'),
+    path(
+        'comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment_update'),
+    path(
+        'comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
+]
