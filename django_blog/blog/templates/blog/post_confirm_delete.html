@@ -8,6 +8,7 @@
     <h1>Delete Post</h1>
     <p>Are you sure you want to delete "{{ object.title }}"?</p>
 
+    <!-- Form submits POST request to delete the post -->
     <form method="POST">
         {% csrf_token %}
         <button type="submit">Yes, delete</button>
