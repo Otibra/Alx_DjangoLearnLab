@@ -15,6 +15,18 @@ def list_books_in_library(library_name):
 
     return books
 
+
+def get_author_by_name(author_name):
+    # REQUIRED: must contain Author.objects.get(...)
+    author = Author.objects.get(name=author_name)
+    return author
+
+
+def get_books_by_author(author):
+    # REQUIRED: must contain Book.objects.filter(author=author)
+    books = Book.objects.filter(author=author)
+    return books
+
 def query_by_auth(request):
     # Get the 'author' parameter from the URL query string (e.g. ?author=John)
     author_name = request.GET.get('author')
