@@ -1,27 +1,38 @@
 # relationship_app/query_samples.py
 
-import os
-import django
+# Importing models from the current app's models.py file
+from .models import Author, Book, Librarian, Library
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "LibraryProject.settings")
-django.setup()
+# Django utility to return JSON responses
+from django.http import JsonResponse
 
-from relationship_app.models import Author, Book, Library, Librarian
 
-# 1. Query all books by a specific author
-def get_books_by_author(author_name):
-    author = Author.objects.get(name=author_name)
-    books = Book.objects.filter(author=author)   # required style
-    return books
+def query_by_auth(request):
+    # Get the 'author' parameter from the URL query string (e.g. ?author=John)
+    author_name = request.GET.get('author')
 
-# 2. List all books in a library
-def get_books_in_library(library_name):
-    library = Library.objects.get(name=library_name)
-    books = library.books.all()
-    return books
+    # If no author name is provided, return an error response
+    if not author_name:
+        return JsonResponse({"error": "author parameter is required"}, status=400)
 
-# 3. Retrieve the librarian for a library
-def get_librarian_for_library(library_name):
-    library = Library.objects.get(name=library_name)
-    librarian = Librarian.objects.get(library=library)  # ✅ required line
-    return librarian
+    # Filter books whose related author name matches the provided author name
+    # NOTE: 'auther' might be a typo and should likely be 'author'
+    books = Book.objects.filter(auther__name=author_name)
+
+    # Convert queryset into a list of dictionaries so it can be returned as JSON
+    # NOTE: This line is incorrect: Book.values() should be books.values()
+    data = list(books.values())
+
+    # Return the filtered books as JSON response
+    return JsonResponse({"books": data})
+
+
+def get_books_in_library(library):
+    # Returns all books related to a given library instance
+    # This assumes Library has a related name 'books' for a relationship with Book
+    return library.books.all()
+
+
+def get_librarian(library):
+    # Returns the librarian associated with the given library instance
+    return library.librarian
