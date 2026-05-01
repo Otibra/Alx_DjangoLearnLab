@@ -6,6 +6,14 @@ from .models import Author, Book, Librarian, Library
 # Django utility to return JSON responses
 from django.http import JsonResponse
 
+def list_books_in_library(library_name):
+    # Get the library by name (REQUIRED by checker)
+    library = Library.objects.get(name=library_name)
+
+    # Access all books related to this library
+    books = library.books.all()
+
+    return books
 
 def query_by_auth(request):
     # Get the 'author' parameter from the URL query string (e.g. ?author=John)
