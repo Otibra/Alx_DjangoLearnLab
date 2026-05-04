@@ -41,7 +41,7 @@ class LibraryDetailView(DetailView):
     
     #............register user........
 
-def register_view(request):
+def RegisterView(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -55,7 +55,7 @@ def register_view(request):
 
 #........logout user........
 
-def logout_view(request):
+def LogoutView(request):
     logout(request)
     return redirect('login')
 
