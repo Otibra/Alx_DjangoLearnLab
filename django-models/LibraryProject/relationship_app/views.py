@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect 
 from django.views.generic.detail import DetailView
 from django.contrib.auth import login,logout
+from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterForm
 from django.contrib.auth.decorators import login_required
 
@@ -46,7 +47,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home')  # changed here
+            return redirect('home')
     else:
         form = RegisterForm()
 
