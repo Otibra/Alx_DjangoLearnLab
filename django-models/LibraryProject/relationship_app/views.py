@@ -1,8 +1,7 @@
 from django.shortcuts import render,redirect 
 from django.views.generic.detail import DetailView
-from django.contrib.auth import login,logout
 from django.contrib.auth.forms import UserCreationForm
-from .forms import RegisterForm
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
 from .models import Book
@@ -43,15 +42,15 @@ class LibraryDetailView(DetailView):
 
 def register(request):
     if request.method == "POST":
-        form = RegisterForm(request.POST)
+        form =UserCreationForm (request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('home')
     else:
-        form = RegisterForm()
+        form =UserCreationForm()
 
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'relationship_app/register.html', {'form': form})
 
 
 #.......home view...............
@@ -59,5 +58,5 @@ def register(request):
 
 @login_required
 def home_view(request):
-    return render(request, 'home.html')
+    return render(request, 'relationship_app/home.html')
 
