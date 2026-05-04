@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect 
 from django.views.generic.detail import DetailView
+from django.contrib.auth import login,logout
+from .forms import RegisterForm
+from django.contrib.auth.decorators import login_required
 
 from .models import Book
 from .models import Library
@@ -37,10 +40,6 @@ class LibraryDetailView(DetailView):
     
     #............register user........
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from .forms import RegisterForm
-
 def register_view(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
@@ -55,18 +54,12 @@ def register_view(request):
 
 #........logout user........
 
-from django.contrib.auth import logout
-from django.shortcuts import redirect
-
 def logout_view(request):
     logout(request)
     return redirect('login')
 
-#.......home view........
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-
+#.......home view...............
+#........... login_required......
 
 @login_required
 def home_view(request):
