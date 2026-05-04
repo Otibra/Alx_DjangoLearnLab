@@ -53,11 +53,6 @@ def RegisterView(request):
 
     return render(request, 'register.html', {'form': form})
 
-#........logout user........
-
-def LogoutView(request):
-    logout(request)
-    return redirect('login')
 
 #.......home view...............
 #........... login_required......
