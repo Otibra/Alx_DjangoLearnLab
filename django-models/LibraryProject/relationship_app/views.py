@@ -66,15 +66,15 @@ def home_view(request):
 
 # Role test functions
 def is_admin(user):
-    return user.profile.role == 'Admin'
+    return user.userprofile.role == 'ADMIN'
 
 
 def is_librarian(user):
-    return user.profile.role == 'Librarian'
+    return user.userprofile.role == 'Librarian'
 
 
 def is_member(user):
-    return user.profile.role == 'Member'
+    return user.userprofile.role == 'Member'
 
 
 # Admin View
