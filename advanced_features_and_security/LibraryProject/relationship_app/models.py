@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser, BaseUserManager
 from django.conf import settings
+from django.contrib.auth.models import Group, Permission
+
 
 # Author Model
 # ----------------------
@@ -129,6 +131,8 @@ class CustomUser(AbstractUser):
     profile_photo = models.ImageField(upload_to="UserProfile/", blank=True, null=True)
 
     objects = CustomUserManager()
+
+   
 
     def __str__(self):
         return self.username

@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.decorators import permission_required
+from .models import CustomUser
 
 
 from .models import Book
@@ -142,6 +143,7 @@ def delete_book(request, book_id):
         return redirect('list_book')
 
     return render(request, 'relationship_app/delete_book.html', {'book': book})
+
 
 
 
