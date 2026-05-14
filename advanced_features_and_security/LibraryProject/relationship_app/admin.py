@@ -4,7 +4,6 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 
 
-
 # Register your models here.
 from .models import UserProfile
 @admin.register(UserProfile)
@@ -13,61 +12,37 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 admin.site.register(Library)
 
- 
-
+# users/admin.py
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
 
-    # Fields displayed in admin list view
+    # Fields displayed in admin list page
     list_display = (
-        "username",
-        "email",
-        "first_name",
-        "last_name",
-        "date_of_birth",
-        "is_staff",
-        "is_active",
+        'username',
+        'email',
+        'first_name',
+        'last_name',
+        'date_of_birth',
+        'is_staff',
     )
 
-    # Fields used for searching
-    search_fields = (
-        "username",
-        "email",
-        "first_name",
-        "last_name",
-    )
-
-    # Filters in right sidebar
-    list_filter = (
-        "is_staff",
-        "is_superuser",
-        "is_active",
-    )
-
-    # Add custom fields to existing UserAdmin fieldsets
+    # Add custom fields to the user detail page
     fieldsets = UserAdmin.fieldsets + (
-        (
-            "Additional Info",
-            {
-                "fields": (
-                    "date_of_birth",
-                    "profile_photo",
-                )
-            },
-        ),
+        ('Additional Info', {
+            'fields': (
+                'date_of_birth',
+                'profile_photo',
+            )
+        }),
     )
 
-    # Fields shown when creating a new user in admin
+    # Add custom fields when creating a new user in admin
     add_fieldsets = UserAdmin.add_fieldsets + (
-        (
-            "Additional Info",
-            {
-                "classes": ("wide",),
-                "fields": (
-                    "date_of_birth",
-                    "profile_photo",
-                ),
-            },
-        ),
+        ('Additional Info', {
+            'fields': (
+                'date_of_birth',
+                'profile_photo',
+            )
+        }),
     )
-    
+  

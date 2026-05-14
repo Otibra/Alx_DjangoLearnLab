@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.decorators import permission_required
-from .models import CustomUser
 
 
 from .models import Book
@@ -71,11 +70,11 @@ def is_admin(user):
 
 
 def is_librarian(user):
-    return user.userprofile.role == 'Librarian'
+    return user.userprofile.role == 'LIBRARIAN'
 
 
 def is_member(user):
-    return user.userprofile.role == 'Member'
+    return user.userprofile.role == 'MEMBER'
 
 
 # Admin View
@@ -99,6 +98,7 @@ def member_view(request):
     return render(request, 'relationship_app/member_view.html')
 
 #......add book....
+@login_required
 @permission_required('relationship_app.can_add_book', raise_exception=True)
 def add_book(request):
 
@@ -107,7 +107,7 @@ def add_book(request):
 
         if form.is_valid():
             form.save()
-            return redirect('list_book')
+            return redirect('list_books')
 
     else:
         form = BookForm()
@@ -115,6 +115,7 @@ def add_book(request):
     return render(request, 'relationship_app/add_book.html', {'form': form})
 
 #.......edit book....
+@login_required
 @permission_required('relationship_app.can_change_book', raise_exception=True)
 def edit_book(request, book_id):
 
@@ -125,7 +126,7 @@ def edit_book(request, book_id):
 
         if form.is_valid():
             form.save()
-            return redirect('list_book')
+            return redirect('list_books')
 
     else:
         form = BookForm(instance=book)
@@ -133,6 +134,7 @@ def edit_book(request, book_id):
     return render(request, 'relationship_app/edit_book.html', {'form': form})
 
 #......delete book......
+@login_required
 @permission_required('relationship_app.can_delete_book', raise_exception=True)
 def delete_book(request, book_id):
 
@@ -140,7 +142,7 @@ def delete_book(request, book_id):
 
     if request.method == "POST":
         book.delete()
-        return redirect('list_book')
+        return redirect('list_books')
 
     return render(request, 'relationship_app/delete_book.html', {'book': book})
 
