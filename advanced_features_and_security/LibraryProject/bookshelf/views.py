@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from .models import Book
 # Create your views here.
+from django.http import HttpResponse
 
 # -----------------------------
 # View Books
@@ -14,6 +15,14 @@ def book_list(request):
     return render(request, 'books/book_list.html', {
         'books': books
     })
+
+    response["Content-Security-Policy"] = (
+        "default-src 'self'; "
+        "script-src 'self'; "
+        "style-src 'self';"
+    )
+
+    return response
 
 
 # -----------------------------
