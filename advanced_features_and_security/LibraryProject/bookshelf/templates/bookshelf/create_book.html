@@ -1,0 +1,14 @@
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Title:</label>
+    <input type="text" name="title" required>
+
+    <label>Author:</label>
+    <input type="text" name="author" required>
+
+    <label>Publication Year:</label>
+    <input type="number" name="publication_year" required>
+
+    <button type="submit">Save Book</button>
+</form>

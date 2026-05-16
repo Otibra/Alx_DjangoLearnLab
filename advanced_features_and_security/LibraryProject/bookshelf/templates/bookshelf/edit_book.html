@@ -1,0 +1,18 @@
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="text" name="title" value="{{ book.title }}" required>
+
+    <input type="text" name="author" value="{{ book.author }}" required>
+
+    <input
+        type="number"
+        name="publication_year"
+        value="{{ book.publication_year }}"
+        required
+    >
+
+    <button type="submit">
+        Update Book
+    </button>
+</form>

@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
+
 from .models import Book
-# Create your views here.
-from django.http import HttpResponse
+from .forms import BookForm
+
 
 # -----------------------------
 # View Books
@@ -12,10 +13,11 @@ def book_list(request):
 
     books = Book.objects.all()
 
-    return render(request, 'books/book_list.html', {
+    response = render(request, 'bookshelf/book_list.html', {
         'books': books
     })
 
+    # Security Header
     response["Content-Security-Policy"] = (
         "default-src 'self'; "
         "script-src 'self'; "
@@ -33,19 +35,19 @@ def create_book(request):
 
     if request.method == 'POST':
 
-        title = request.POST.get('title')
-        author = request.POST.get('author')
-        publication_year = request.POST.get('publication_year')
+        # Validate and sanitize input
+        form = BookForm(request.POST)
 
-        Book.objects.create(
-            title=title,
-            author=author,
-            publication_year=publication_year
-        )
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')
 
-        return redirect('book_list')
+    else:
+        form = BookForm()
 
-    return render(request, 'books/create_book.html')
+    return render(request, 'bookshelf/create_book.html', {
+        'form': form
+    })
 
 
 # -----------------------------
@@ -58,16 +60,18 @@ def edit_book(request, pk):
 
     if request.method == 'POST':
 
-        book.title = request.POST.get('title')
-        book.author = request.POST.get('author')
-        book.publication_year = request.POST.get('publication_year')
+        # Validate edited data
+        form = BookForm(request.POST, instance=book)
 
-        book.save()
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')
 
-        return redirect('book_list')
+    else:
+        form = BookForm(instance=book)
 
-    return render(request, 'books/edit_book.html', {
-        'book': book
+    return render(request, 'bookshelf/edit_book.html', {
+        'form': form
     })
 
 
@@ -83,6 +87,27 @@ def delete_book(request, pk):
         book.delete()
         return redirect('book_list')
 
-    return render(request, 'books/delete_book.html', {
+    return render(request, 'bookshelf/delete_book.html', {
         'book': book
+    })
+
+
+# -----------------------------
+# Add Book
+# -----------------------------
+def add_book(request):
+
+    if request.method == "POST":
+
+        form = BookForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("book_list")
+
+    else:
+        form = BookForm()
+
+    return render(request, "bookshelf/add_book.html", {
+        "form": form
     })
