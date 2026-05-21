@@ -1,4 +1,4 @@
-from rest_framework import status, generics
+from rest_framework import status, generics,permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -65,7 +65,7 @@ class ProfileView(APIView):
     
 
 class FollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
@@ -82,9 +82,10 @@ class FollowUserView(generics.GenericAPIView):
         return Response({
             "message": f"You are now following {target_user.username}"
         })
-    
+
+
 class UnfollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
