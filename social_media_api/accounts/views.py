@@ -3,7 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
+from django.shortcuts import get_object_or_404
 
+from .models import CustomUser
 from .serializers import (
     RegisterSerializer,
     LoginSerializer,
@@ -19,7 +21,6 @@ class RegisterView(APIView):
 
         if serializer.is_valid():
             user = serializer.save()
-
             token, created = Token.objects.get_or_create(user=user)
 
             return Response({
@@ -61,4 +62,33 @@ class ProfileView(APIView):
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class FollowUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        target_user = get_object_or_404(CustomUser, id=user_id)
+
+        if request.user == target_user:
+            return Response({"error": "You cannot follow yourself."}, status=400)
+
+        request.user.following.add(target_user)
+
+        return Response({
+            "message": f"You are now following {target_user.username}"
+        })
+
+
+class UnfollowUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        target_user = get_object_or_404(CustomUser, id=user_id)
+
+        request.user.following.remove(target_user)
+
+        return Response({
+            "message": f"You unfollowed {target_user.username}"
+        })
     
