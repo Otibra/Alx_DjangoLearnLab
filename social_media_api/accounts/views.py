@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -64,27 +64,31 @@ class ProfileView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-class FollowUserView(APIView):
+class FollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
-        target_user = get_object_or_404(CustomUser, id=user_id)
+        target_user = get_object_or_404(self.get_queryset(), id=user_id)
 
         if request.user == target_user:
-            return Response({"error": "You cannot follow yourself."}, status=400)
+            return Response(
+                {"error": "You cannot follow yourself."},
+                status=400
+            )
 
         request.user.following.add(target_user)
 
         return Response({
             "message": f"You are now following {target_user.username}"
         })
-
-
-class UnfollowUserView(APIView):
+    
+class UnfollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
-        target_user = get_object_or_404(CustomUser, id=user_id)
+        target_user = get_object_or_404(self.get_queryset(), id=user_id)
 
         request.user.following.remove(target_user)
 
