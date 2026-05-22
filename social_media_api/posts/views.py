@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, generics
 from .models import Post, Comment,Like
 from .serializers import PostSerializer, CommentSerializer
 from .permissions import IsOwnerOrReadOnly
@@ -11,8 +11,6 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from notifications.models import Notification
-
-
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
@@ -74,36 +72,26 @@ def unlike_post(request, post_id):
 
 #notification for like
 
+
 @login_required
-def like_post(request, post_id):
+def like_post(request, pk):
 
-    post = get_object_or_404(Post, id=post_id)
+    post = generics.get_object_or_404(Post, pk=pk)
 
-    # Prevent duplicate likes
-    already_liked = Like.objects.filter(
-        user=request.user,
-        post=post
-    ).exists()
-
-    if already_liked:
-        return redirect(request.META.get("HTTP_REFERER", "/"))
-
-    # Create like
-    Like.objects.create(
+    like, created = Like.objects.get_or_create(
         user=request.user,
         post=post
     )
 
-    # Create notification
-    create_notification(
-        recipient=post.author,
-        actor=request.user,
-        verb="liked your post",
-        target=post
-    )
+    if created:
+        Notification.objects.create(
+            recipient=post.author,
+            actor=request.user,
+            verb="liked your post",
+            post=post
+        )
 
     return redirect(request.META.get("HTTP_REFERER", "/"))
-
 
 @login_required
 def add_comment(request, post_id):
