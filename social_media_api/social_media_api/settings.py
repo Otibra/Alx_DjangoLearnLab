@@ -28,7 +28,7 @@ DEBUG = False
 
 
 ALLOWED_HOSTS = [
-    "social_media_api.onrender.com",
+    "alx-djangolearnlab-1-d0qo.onrender.com",
     "localhost",
     "127.0.0.1",
 ]
@@ -170,3 +170,6 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://alx-djangolearnlab-1-d0qo.onrender.com",
+]
