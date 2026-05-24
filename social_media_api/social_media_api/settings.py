@@ -173,3 +173,5 @@ if not DEBUG:
 CSRF_TRUSTED_ORIGINS = [
     "https://alx-djangolearnlab-1-d0qo.onrender.com",
 ]
+
+APPEND_SLASH = True
