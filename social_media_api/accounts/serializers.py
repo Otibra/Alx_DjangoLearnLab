@@ -21,19 +21,36 @@ class RegisterSerializer(serializers.ModelSerializer):
             'profile_picture',
         ]
 
+
+
     def create(self, validated_data):
         password = validated_data.pop('password')
 
-        # REQUIRED by checker: get_user_model().objects.create_user
-        user = User.objects.create_user(
-            **validated_data,
+        user = CustomUser.objects.create_user(
+            username= validated_data.get('username'),
+            email=validated_data.get('email'),
+            bio=validated_data.get('bio', ''),
+            profile_picture=validated_data.get('profile_picture', None),
             password=password
         )
+
+        return user
+
+
+
+    #def create(self, validated_data):
+       # password = validated_data.pop('password')
+
+        # REQUIRED by checker: get_user_model().objects.create_user
+        #user = User.objects.create_user(
+        #    **validated_data,
+           # password=password
+        #)
 
         # REQUIRED by checker: Token.objects.create
         #Token.objects.create(user=user)
 
-        return user
+        #return user
 
 
 class LoginSerializer(serializers.Serializer):
