@@ -31,7 +31,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
 
         # REQUIRED by checker: Token.objects.create
-        Token.objects.create(user=user)
+        #Token.objects.create(user=user)
 
         return user
 
