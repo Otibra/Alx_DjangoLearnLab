@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Post, Comment
+from .models import Post, Comment, Tag
+
+
 
 # Form to allow users to update their profile information (username and email)
 class UserUpdateForm(forms.ModelForm):
@@ -28,9 +30,9 @@ class PostForm(forms.ModelForm):
         # 'published_date' is auto-generated.
         fields = ['title', 'content'] 
 
+
+
 # forms.py
-from django import forms
-from .models import Comment
 
 class CommentForm(forms.ModelForm):
     class Meta:

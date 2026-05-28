@@ -231,3 +231,9 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         comment = self.get_object()
         return self.request.user == comment.author
     
+ # blog/views.py
+def home(request):
+    return render(request, 'blog/home.html') 
+
+def posts(request):
+    return render(request, 'posts.html') 

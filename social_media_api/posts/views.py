@@ -95,7 +95,7 @@ def add_comment(request, post_id):
         content = request.POST.get("content")
 
         comment = Comment.objects.create(
-            user=request.user,
+            author =request.user,
             post=post,
             content=content
         )
@@ -111,7 +111,6 @@ def add_comment(request, post_id):
     return redirect(request.META.get("HTTP_REFERER", "/"))
 
 #notification for follower
-
 @login_required
 def follow_user(request, user_id):
 
@@ -121,22 +120,23 @@ def follow_user(request, user_id):
     if user_to_follow == request.user:
         return redirect(request.META.get("HTTP_REFERER", "/"))
 
-    # toggle follow
+    # Toggle follow
     if request.user.following.filter(id=user_to_follow.id).exists():
+
+        # unfollow
         request.user.following.remove(user_to_follow)
+
     else:
+
+        # follow
         request.user.following.add(user_to_follow)
 
-    return redirect(request.META.get("HTTP_REFERER", "/"))
-
-
-    # Create notification
-    create_notification(
-        recipient=user_to_follow,
-        actor=request.user,
-        verb="started following you",
-        target=follow
-    )
+        # create notification
+        create_notification(
+            recipient=user_to_follow,
+            actor=request.user,
+            verb="started following you"
+        )
 
     return redirect(request.META.get("HTTP_REFERER", "/"))
 

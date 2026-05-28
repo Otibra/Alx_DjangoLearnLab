@@ -11,9 +11,10 @@ from .views import (
     CommentDeleteView,
 )
 
-app_name = 'blog'  # Optional, for namespacing URLs
+#app_name = 'blog'  # Optional, for namespacing URLs
 
 urlpatterns = [
+    path('', views.home, name='home'),
     path('register/', views.register, name='register'),  # /register
     path('login/', views.user_login, name='login'),      # /login
     path('logout/', views.user_logout, name='logout'),   # /logout
