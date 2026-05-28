@@ -27,9 +27,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 DEBUG = False
 
 
-ALLOWED_HOSTS = [
-    "alx-djangolearnlab-1-d0qo.onrender.com",
-]
+ALLOWED_HOSTS = ["alx-djangolearnlab-3-qwvp.onrender.com"]
 
 
 # Application definition
@@ -166,7 +164,5 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://alx-djangolearnlab-1-d0qo.onrender.com",
-]
+CSRF_TRUSTED_ORIGINS = ["https://alx-djangolearnlab-3-qwvp.onrender.com",]
 
