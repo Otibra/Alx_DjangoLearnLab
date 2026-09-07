@@ -1,10 +1,9 @@
-##Social Media API
+Social Media API
+A RESTful Social Media API built with Django and Django REST Framework.
 
-##A RESTful Social Media API built with Django and Django REST Framework.
+The project currently provides user registration, token-based authentication, and authenticated profile management.
 
-##The project currently provides user registration, token-based authentication, and authenticated profile management.
-
-##Features
+Features
 User registration
 User login
 Token-based authentication
@@ -22,8 +21,7 @@ Django 4.2
 Django REST Framework
 Django REST Framework Token Authentication
 SQLite
-
-##Project Structure
+Project Structure
 social_media_api/
 ├── manage.py
 │
@@ -44,4 +42,3 @@ social_media_api/
 │   └── wsgi.py
 │
 └── db.sqlite3
-
