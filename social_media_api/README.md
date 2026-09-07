@@ -27,19 +27,35 @@ SQLite
 📁 Project Structure
 
 social_media_api/
+
 ├── manage.py
+
 ├── accounts/
+
 │   ├── migrations/
+
 │   ├── admin.py
+
 │   ├── apps.py
+
 │   ├── models.py
+
 │   ├── serializers.py
+
 │   ├── tests.py
+
 │   ├── urls.py
+
 │   └── views.py
+
 ├── social_media_api/
+
 │   ├── settings.py
+
 │   ├── urls.py
+
 │   ├── asgi.py
+
 │   └── wsgi.py
+
 └── db.sqlite3
