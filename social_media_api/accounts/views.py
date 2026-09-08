@@ -5,6 +5,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 from .models import User
 from django.shortcuts import get_object_or_404
+from notifications.utils import create_notification
+
  
 
 from .serializers import (
@@ -101,12 +103,22 @@ class FollowUserView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+        if request.user.following.filter(id=user_to_follow.id).exists():
+            return Response(
+                {"error": "You are already following this user."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
         request.user.following.add(user_to_follow)
+
+        create_notification(recipient=user_to_follow,actor=request.user,verb="started following you",target=request.user,)
+
 
         return Response(
             {"message": "User followed successfully."},
             status=status.HTTP_200_OK
         )
+
 
 class FollowingView(APIView):
     permission_classes = [IsAuthenticated]

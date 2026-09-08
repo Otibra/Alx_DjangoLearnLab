@@ -7,13 +7,13 @@ urlpatterns = [
     path("login/", LoginView.as_view(), name="login"),
     path("profile/", ProfileView.as_view(), name="profile"),
     path(
-        "follow-user/<int:user_id>/follow/",
+        "followuser/<int:user_id>/follow/",
         FollowUserView.as_view(),
         name="follow-user",
     ),
 
     path(
-        "unfollow-user/<int:user_id>/unfollow/",
+        "unfollowuser/<int:user_id>/unfollow/",
         UnfollowUserView.as_view(),
         name="unfollow-user",
     ),
@@ -31,13 +31,13 @@ urlpatterns = [
     ),
 
     path(
-        "user-following/<int:user_id>/following/",
+        "userfollowing/<int:user_id>/following/",
         UserFollowingView.as_view(),
         name="user-following",
     ),
 
     path(
-        "users-followers/<int:user_id>/followers/",
+        "usersfollowers/<int:user_id>/followers/",
         UserFollowersView.as_view(),
         name="user-followers",
     ),
