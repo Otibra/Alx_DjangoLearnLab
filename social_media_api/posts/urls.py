@@ -14,12 +14,12 @@ router.register(r"comments", CommentViewSet, basename="comment")
 urlpatterns = [
     path("", include(router.urls)),
     path(
-        "posts/<int:post_id>/like/",
+        "<int:post_id>/like/",
         LikePostView.as_view(),
         name="like",
     ),
     path(
-        "posts/<int:post_id>/unlike/",
+        "<int:post_id>/unlike/",
         UnlikePostView.as_view(),
         name="unlike",
     ),
