@@ -29,14 +29,13 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all().order_by("-created_at")
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthorOrReadOnly,permissions.IsAuthenticated]
+    permission_classes = [
+        IsAuthorOrReadOnly,
+        permissions.IsAuthenticated
+    ]
 
     pagination_class = PostCommentPagination
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
 
     def get_queryset(self):
         queryset = Comment.objects.all().order_by("-created_at")
@@ -47,4 +46,6 @@ class CommentViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(post_id=post_id)
 
         return queryset
-    
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
