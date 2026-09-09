@@ -1,105 +1,65 @@
-Social Media API
-A RESTful Social Media API built with Django and Django REST Framework (DRF).
+Social Media API 🚀
 
-The API provides user authentication, profiles, follow/follower relationships, posts, comments, search, pagination, and author-based permissions.
+A Django REST Framework (DRF) Social Media API built with Python and Django.
+
+🌐 Live API
+
+Production:
+https://alx-djangolearnlab-1-d0qo.onrender.com
+
+Source Code:
+https://github.com/otieno-backend/Alx_DjangoLearnLab/tree/main/social_media_api
 
 ✨ Features
-
-Authentication & Users
-
-User registration
-User login
-Token-based authentication
-Custom user model
-Authenticated profile retrieval
-Authenticated profile updates
-User bio
-Profile pictures
-
-Follow System
-
-Follow other users
-Unfollow users
-Prevent users from following themselves
-View users you are following
-View your followers
-View another user's following list
-View another user's followers
-Follower and following counts
-Users can only modify their own following relationships
-
-Posts
-
-Create posts
-View posts
-Update your own posts
-Delete your own posts
-Posts ordered by creation date, newest first
-Search posts by title and content
-Automatic assignment of post author
-Pagination
-
+User registration & Token Authentication
+Custom user profiles
+Follow / unfollow users
+Followers & following
+Create, update & delete posts
 Comments
+Post search & pagination
+User permissions
+Django Admin
+CORS support
+Production deployment with Render
+🛠️ Tech Stack
 
-Create comments
-View comments
-Update your own comments
-Delete your own comments
-Filter comments by post
-Comments ordered by creation date, newest first
-Automatic assignment of comment author
-Pagination
+Python · Django 4.2 · Django REST Framework · Token Authentication · SQLite/PostgreSQL · WhiteNoise · Render
 
-Permissions
+🚀 Quick Start
+Use the Live API
 
-Authentication required for protected endpoints
-Users can modify only their own posts
-Users can modify only their own comments
-Users cannot modify another user's posts or comments
-Following relationships are managed through dedicated follow/unfollow endpoints
-Administration & Database
-Django admin interface
-SQLite database for development
+Use the API with Postman, Insomnia, cURL, or a frontend application.
 
-🛠️ Technologies
+https://alx-djangolearnlab-1-d0qo.onrender.com
 
-Python
-Django 4.2
-Django REST Framework
-DRF Token Authentication
-SQLite
 
-📁 Project Structure
+For protected endpoints:
 
-social_media_api/
-│
-├── manage.py
-│
-├── accounts/
-│   ├── migrations/
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── serializers.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-│
-├── posts/
-│   ├── migrations/
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── serializers.py
-│   ├── pagination.py
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-│
-├── social_media_api/
-│   ├── settings.py
-│   ├── urls.py
-│   ├── asgi.py
-│   └── wsgi.py
-│
-└── db.sqlite3
+Authorization: Token YOUR_TOKEN
+
+Run Locally
+git clone https://github.com/otieno-backend/Alx_DjangoLearnLab.git
+cd Alx_DjangoLearnLab/social_media_api
+
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+python manage.py migrate
+python manage.py runserver
+
+
+Local API:
+
+http://127.0.0.1:8000/
+
+🔎 Keywords
+
+Django Django REST Framework DRF Python REST API Social Media API Backend Authentication Token Authentication User Profiles Posts API Comments API Followers Following Search API Pagination CORS PostgreSQL SQLite Render Django Backend
+
+👨‍💻 Author
+
+otieno-backend
+
+Built with Django & Django REST Framework ❤️
