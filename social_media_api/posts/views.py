@@ -1,3 +1,5 @@
+from django.core.cache import cache
+
 from rest_framework import viewsets, permissions, filters,status
 from django.contrib.contenttypes.models import ContentType
 from .models import Post, Comment,Like
@@ -33,6 +35,44 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+        cache.clear()
+
+    def perform_update(self, serializer):
+        serializer.save()
+        cache.clear()
+
+    def perform_destroy(self, instance):
+        instance.delete()
+        cache.clear()
+
+        
+
+    def list(self, request, *args, **kwargs):
+        cache_key = f"posts:{request.get_full_path()}"
+
+        cached_posts = cache.get(cache_key)
+
+        if cached_posts is not None:
+            return Response(cached_posts)
+
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            response = self.get_paginated_response(serializer.data)
+
+            cache.set(cache_key, response.data, timeout=60 * 5)
+
+            return response
+
+        serializer = self.get_serializer(queryset, many=True)
+
+        cache.set(cache_key, serializer.data, timeout=60 * 5)
+
+        return Response(serializer.data)
+
 
 
 class CommentViewSet(viewsets.ModelViewSet):
