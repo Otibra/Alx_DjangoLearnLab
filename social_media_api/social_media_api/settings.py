@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get(
     )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -132,15 +132,21 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+REDIS_URL = os.environ.get(
+    "REDIS_URL",
+    "redis://127.0.0.1:6379/1",
+)
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": REDIS_URL,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
+        },
+    },
 }
+
 
 
 # Internationalization
@@ -180,11 +186,11 @@ AUTH_USER_MODEL = 'accounts.User'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
-SECURE_SSL_REDIRECT = False
-#SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = not DEBUG
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
 
 #Prevent browsers from downgrading HTTPS requests.
 if not DEBUG:
