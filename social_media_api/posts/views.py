@@ -11,6 +11,9 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from notifications.utils import create_notification
+from django.db import transaction
+from notifications.tasks import notify_followers
+
 
 
 
@@ -34,8 +37,14 @@ class PostViewSet(viewsets.ModelViewSet):
     search_fields = ["title", "content"]
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        post = serializer.save(author=self.request.user)
+
+        transaction.on_commit(
+            lambda: notify_followers.delay(post.id)
+        )
+
         cache.clear()
+
 
     def perform_update(self, serializer):
         serializer.save()
